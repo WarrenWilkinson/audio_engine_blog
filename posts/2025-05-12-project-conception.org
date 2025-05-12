@@ -1,0 +1,45 @@
+#+title: project conception
+#+date: <2025-05-12 17:35>
+#+description: 
+#+filetags: supercollider
+
+I conceived of my custom instrument sometime after playing with
+guitarix, and learning that a powerful computer could replace a lot of
+audio equipment.  Later I encountered sooper looper and hydrogen and
+though -- hey you might really have something here.  A way to get a
+full band kind of sound, by looping stuff an individual played on
+instruments.
+
+I originally though I'd use those actual programs.  Id run pipewire
+and dynamically control all the applications with a sort of
+"orchestrating program" that I would write (in common lisp, using
+GObject.  That would let me use both GTK and wireplumber for changing
+audio routing.  I eventually decided that this approach was not going
+to work.  First the orchestrator program has to deal with start,
+stopping and configuring so many apps.  The state space is huge and
+unwieldy, and it starts to be like the terraform of desktop
+applications!  And secondly I had major concerns about stability: if a
+single application died, I'd lose audio.  The longer the chains, the
+more likely this would be.
+
+So instead I decided to simplify - write my own equivalents in
+something like Rust.  This way there are no external programs, and I
+can concievably do everything I need if I'm willing to program it.
+This led me to investigating techniques to create an efficient audio
+core loop; and in this investigation, I found the good suggestion to
+look at how systems like SuperCollider manage lock free communication
+to keep themselves from overrunning and failing to produce the next
+bit of audio in time.
+
+And when I read about SuperCollider, it all clicked.  It seemed to
+have every feature I was looking for: high performance, dynamically
+alter the DAG (directed acyclic graph) that represents the sound
+generation process, headless server, midi and guitar and microphone
+input support, extensible.
+
+If supercollider works, and I've no reason to doubt it would, it saves
+me years of development time.  So suddenly Im having to look at how to
+build my sounds and instruments years before I expected too!
+
+This is who told me:
+(http://www.rossbencina.com/code/real-time-audio-programming-101-time-waits-for-nothing)

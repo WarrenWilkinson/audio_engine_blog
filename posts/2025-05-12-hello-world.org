@@ -1,0 +1,39 @@
+#+title: Hello World!
+#+date: <2025-05-12 17:34>
+#+description: Plan to build a custom instrument, with SuperCollider
+#+filetags: supercollider
+
+Hello World! (classic!)
+
+I'm starting a blog to go along with my personal project: To build a
+controller-ist instrument using...
+
+  * A raspberry PI 4
+  * A Wii Rockband Guitar
+  * A computer keyboard
+  * A track mouse
+  * SuperCollider
+  * And some DACs, some wire and a whole lotta prayers.
+
+Heres a picture of what I'm envisioning.
+
+
+So with introductions out of the way. I should mention that I've never
+used SuperCollider before.  I do have like 20 years experience with
+programming and Linux, but less experience with hardware, and none
+with Synthesizer design.  I've done a little guitar and piano, meaning
+I know what notes and chords and key signatures are, but I can't play
+any songs.
+
+So to achieve my goal of being able to play decent renditions of some
+of my favorite songs (western rock, pop, rap, etc; details irrelevant)
+I need to make progress on several tranches.
+
+ * Building the right sounds in SuperCollider
+ * Building the instrument
+ * Determing how the instrument will actually work (by this I mean, what will the buttons actually do - not how the code will work)
+ * learning and practicing many songs.
+
+To that end, i'm writing this blog.  A construction diary, so that
+others can follow and modify to their own tastes.  That is all, for
+now.
