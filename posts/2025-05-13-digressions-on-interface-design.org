@@ -1,0 +1,153 @@
+#+title: Digressions on Interface Design
+#+date: <2025-05-13 16:51>
+#+description: How can the Interface possibly work?
+#+filetags: design interface
+#+image: media/2025-05-13-Digressions-on-Interface-Design/seperate-spaces.png
+
+I wonder about how to "fit" the many genre unique sounds into
+something playable.  For example, metal music has a certain sound to
+it's vocals, drums, guitar, piano and auxilary instruments. So does
+rock, country pop, techo, classical and video game music.
+
+One approach is an artificial division into separate spaces. For
+example, this heirarchical approach:
+
+* Idea 1: Genre based heirarchy
+
+#+begin_src ditaa :file media/2025-05-13-Digressions-on-Interface-Design/seperate-spaces.png :exports results
+
+
+				  +----------+
+				  |  Start   |
+				  | cGRE  {o}|
+				  +----+-----+
+				       |
+				       |
+	     +----------------+--------+-----------+-------------+
+	     |                |                    |             |
+	     V                V                    V             V  
+	+---------+         +-------+           +------+    +--------+
+	| Country |         | Rock  |           |  Pop |    | Techno |     
+	| cYEL    |         | cRED  |           | cPNK |    | cBLU   |
+	+----+----+         +---+---+           +---+--+    +------+-+
+	     |                  |                   |              |
+     +-------+---+        +-----+--+-------+        +-------+      |
+     |           |        |        |       |        |       |      |          
+     V           V        V        V       V        V       V      V
+  +-------+  +------+  +-----+  +-----+ +-----+  +-----+ +-----+ +-----+
+  | Cntry |  | Cntry|  | ROCK|  | ROCK| | ROCK|  | Pop | | Pop | | Tech|
+  |   1   |  |   2  |  |  1  |  |  2  | |  3  |  |  1  | | 2   | |  1  |
+  |cYEL   |  |cYEL  |  | cRED|  | cRED| |cRED |  | cPNK| | cPNK| | cBLU|
+  +-------+  +------+  +-----+  +-----+ +-----+  +-----+ +-----+ +-----+
+
+#+end_src
+
+This approach is easy to understand and devise an interface for. I'd
+probably assign letters or numbers to the different paths so that
+every leaf gets a unique code that could be typed in quickly. The
+downside is low flexibility. No blending, no improvization in this
+domain.  Just pick the set of prepackaged sounds and go.
+
+Of course, you can make it *more* flexible by doing something like
+this for each instrument.  Then you could combine metal drums with pop
+synths. Which leads to another strategy (which is also a seperate spaces
+stategy, but a little less artificial):
+
+* Idea 2: Bank Assignment
+
+#+begin_src ditaa :file media/2025-05-13-Digressions-on-Interface-Design/seperate-instruments.png :exports results
+
+   Banks           +-----+      Sounds
+  +-------------+  |     |   +--------------------+
+  | 1           +--|--+  +-->| Heavy Fuzz Guitar  |
+  +-------------+  |  |      +--------------------+
+  | 2           +--+  +----->| Drum Kit A         |
+  +-------------+            +--------------------+
+  | ...         |            | ...                |
+  +-------------+            +--------------------+
+  | N           +----------->| Reverb Voice       |
+  +-------------+            +--------------------+
+
+#+end_src
+
+In this model, "banks" are assigned sounds. What are banks?  Well if I
+have a midi keyboard I might assign half of it Keyboard A and half of
+it Bass Guitar B, and if I hit a certain midi switch maybe it all
+becomes Drumkit Z.  So the keyboard is represented by 3 banks (Low
+half, high half, switched mode).  Splitting instruments into banks is
+some decision made a head of time..
+
+The benefits of this arrangement is that I have more performance-time
+flexibility in how things should sound.  The drawback is the time it
+would take to assign a sound to each bank.
+
+Of course you could combine this idea with the prior one, and then you
+have some kind of mass-assignment code that gets you into the right
+groove, followed by fine tuning.  The downside is that now you've got
+to memorize two systems.
+
+* Idea 3: An N-dimensional space
+
+Another possible approach would be to take the genre-splitting idea and map the
+leaves onto a 2D grid like this
+
+#+begin_src ditaa :file media/2025-05-13-Digressions-on-Interface-Design/grid-of-genres.png :exports results
+  +-------+     
+  | Cntry |     +-----+                             +-----+
+  |   1   |     | ROCK|                             | Tech|
+  |cYEL   |     |  1  |                             |  1  |
+  +-------+     | cRED|  +-----+                    | cBLU|
+		+-----+  | ROCK|                    +-----+
+	       +------+  |  3  |  +-----+          +-----+ 
+	       | Cntry|  |cRED |  | ROCK|          | Pop | 
+	       |   2  |  +-----+  |  2  |          |  1  | 
+	       |cYEL  |           | cRED|          | cPNK| 
+    dim1       +------+           +-----+          +-----+ 
+     ^                                 +-----+            
+     :                                 | Pop |
+     |                                 | 2   |
+     |                                 | cPNK|
+     +--------> dim2                   +-----+
+#+end_src
+
+The idea here is that you define some transformation F and use it to
+put all the genre leaf nodes into a 2D space.  Then you can change
+your position in this space with a mouse.  But then you need to exit
+the space and get back to a sound set... that could be done with
+nearest neighbor, but ideally some kind of interpolation.
+
+This has a number of conceptual problems
+
+ 1. What is the transformation?
+ 2. What do dim1 and dim2 represent?
+ 3. How do you interpolate between the sounds?
+ 4. Can such an interpolation be implemented?
+
+Before tackling these, I'd just like to note that you could have more
+than 2 dimensions.  You could do 2, then click, then 2 more (Or have
+two trackballs).
+
+For point 4 --- this depends on how your sounds are arranged and
+organized.  For example if every soundset is the same except for
+linear numeric tuning parameters, it's clearly possible, and the
+interpolation function is easily defined.
+
+For point 3, if you did this 2D grid for every "instrument sound",
+then maybe nearest neighbor for each instrument would give a neat sort
+of interpolation on the overall sound.  For example maybe in
+transitioning from Country1 to Rock1, first the cowbell is replaced by
+a clap sound, then the twangy guitar becomes acoustic, and then the
+piano becomes more synthetic.
+
+For point 2 -- who knows?  Ideally you find something that makes it
+understandable from a human point of view.  This is unlikely for
+"whole instrument sets".  You might be able to find such a pair for
+individual instruments though, and that might be a fun way to tweak
+it.  For example, maybe in the case of guitar sounds you end up with
+one dimension kind of being like distortion and the other being kind
+of like flange or reverb.
+
+** Conclusions?
+
+Nothing much to conclude.  You can't really know what you need until
+you start building and using stuff.

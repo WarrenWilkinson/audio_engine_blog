@@ -45,3 +45,7 @@
 ;;   the blog posts
 (setq org-static-blog-index-front-matter
       "<h1> Welcome to my blog </h1>\n")
+
+(setq org-static-blog-enable-og-tags t)
+
+(setq org-ditaa-jar-path "/home/warren/projects/audio_engine_blog/local/ditaa0_9.jar")
