@@ -2,6 +2,7 @@
 #+date: <2025-05-10 17:34>
 #+description: Plan to build a custom instrument, with SuperCollider
 #+filetags: supercollider
+#+image: media/2025-05-10-hello-world/custom-instrument-mockup.jpg
 
 Hello World! (classic!)
 
@@ -15,8 +16,35 @@ controller-ist instrument using...
   * SuperCollider
   * And some DACs, some wire and a whole lotta prayers.
 
-Heres a picture of what I'm envisioning.
+Here's a picture of what I'm envisioning.
 
+[[file:media/2025-05-10-hello-world/custom-instrument-mockup.jpg]]
+
+Isn't it *awful* (or /beautiful/ depending on your mindset)?!?.  Let me tell you
+about some of the features I hope to put into this Frankenstein:
+
+  - That number pad where you strum is supposed to be under the wires.
+    It's for percussive guitar so when you wham the bottom or top row
+    I can trigger a drum-kit sound.  This is for fast (but simple) drum fills.
+  - The RockBand keyboard hanging off the bottom is for playing keyboard /
+    synth parts. It's a midi device.
+  - The computer keyboard hanging off the side is for controlling
+    other things
+    - what synths are loaded
+    - creating and playing back loops
+    - typing in "patterns" to control a drum machine or rhythm
+      generator
+    - set bpm, time signature, song (for lyrics on output video).
+  - The trackball mouse at the top I'm hoping can give me DJ
+    scratching, or other misc effects.
+  - The guitar isn't supposed to be an off the shelf guitar.
+    - Frame out of two-by-fours, components set into it.
+    - ideally, I build my own humbuckers into a set of IC DACs so that I can read
+      each wire independently.
+      - Hoping to enable a "midi" mode where the guitar is another midi instrument.
+      - Hoping to enable a "chord pattern" system (since the instrument knows song key,
+	perhaps it can pitch shift each string appropriately to emulate a specific
+	chord without me having to do it -- cause I'm busy).
 
 So with introductions out of the way. I should mention that I've never
 used SuperCollider before.  I do have like 20 years experience with
@@ -26,14 +54,14 @@ I know what notes and chords and key signatures are, but I can't play
 any songs.
 
 So to achieve my goal of being able to play decent renditions of some
-of my favorite songs (western rock, pop, rap, etc; details irrelevant)
+of my favourite songs (western rock, pop, rap, etc; details irrelevant)
 I need to make progress on several tranches.
 
  * Building the right sounds in SuperCollider
  * Building the instrument
- * Determing how the instrument will actually work (by this I mean, what will the buttons actually do - not how the code will work)
- * learning and practicing many songs.
+ * Determining how the instrument will actually work (by this I mean, what will the buttons actually do - not how the code will work)
+ * learning and practising many songs.
 
-To that end, i'm writing this blog.  A construction diary, so that
+To that end, I'm writing this blog.  A construction diary, so that
 others can follow and modify to their own tastes.  That is all, for
 now.

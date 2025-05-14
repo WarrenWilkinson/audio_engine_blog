@@ -1,0 +1,103 @@
+
+
+I have at least two more... one about tutorials available and the other about
+guitar and midi input in supercollider -- just the stubs
+
+And perhaps another about the DACs and GUITAR handling I wanted to try.
+
+* Guitar and Midi input
+
+pw-jack qpwgraph
+pw-jack scide
+{ SoundIn.ar(0, mul: 2.0) }.play;
+
+Try this one with a guitar on Monday.
+https://superdupercollider.blogspot.com/2009/05/guitar-effects.html
+(Why is line level so low?  Does my guitar suck or my input? -- or both!  How to combat the noise floor?  Band pass filter?)
+
+Keyboard:
+
+pw-jack vmpk
+pw-jack qpwgraph
+pw-jack scide
+
+MIDIClient.init;
+
+s.boot;
+
+(
+var notes, on, off;
+
+MIDIClient.init;
+MIDIIn.connectAll;
+
+notes = Array.newClear(128);    // array has one slot per possible MIDI note
+
+on = MIDIFunc.noteOn({ |veloc, num, chan, src|
+    notes[num] = Synth(\default, [\freq, num.midicps,
+        \amp, veloc * 0.00315]);
+});
+
+off = MIDIFunc.noteOff({ |veloc, num, chan, src|
+    notes[num].release;
+});
+
+q = { on.free; off.free; };
+)
+
+// when done:
+q.value;
+
+
+* The Default  Synth
+
+A number of articles online talk about how to replace the default synth with something else.  But I haven't seen anyone
+discribe what the default synth is.
+
+[[file:/usr/share/SuperCollider/SCClassLibrary/Common/Collections/Event.sc::makeDefaultSynthDef {]]
+
+I found the default synth:
+
+#+begin_example
+	  ,*makeDefaultSynthDef {
+		  SynthDef(\default, { arg out=0, freq=440, amp=0.1, pan=0, gate=1;
+			  var z;
+			  z = LPF.ar(
+				  Mix.new(VarSaw.ar(freq + [0, Rand(-0.4,0.0), Rand(0.0,0.4)], 0, 0.3, 0.3)),
+				  XLine.kr(Rand(4000,5000), Rand(2500,3200), 1)
+			  ) * Linen.kr(gate, 0.01, 0.7, 0.3, 2);
+			  OffsetOut.ar(out, Pan2.ar(z, pan, amp));
+		  }, [\ir]).add;
+	  }
+#+end_example
+
+* Getting out of SuperCollider dunce mode (complete tutorial series)
+
+A set of PDFS:
+https://www.berkeleynoise.com/celesteh/podcast/projects/abandoned-tutorial/
+
+A 17 part tutorial
+http://www.ixi-audio.net/content/backyard.html
+
+Mixing Board Suite
+http://www.dewdrop-world.net/sc3/tutorials/index.php?id=1
+
+A set of youtube tutorials
+https://www.youtube.com/watch?v=8EK9sq_9gFI
+
+* Speculation on why SCLANG might not be good for large projects
+
+https://nathan.ho.name/posts/supercollider-beginner-advice/
+
+I've read some comments that sclang itself might not be idea for large
+projects.  That's it. That's really all that's said.  Since a large
+project is exactly what I'm doing, and my hope is to do it all in sclang,
+lets take a moment to consider why that might be.
+
+ - Differences in interpreter and run time.
+ - Lack of testing facilities.
+ - Lack of compile time checks.
+
+* Super Nova
+
+https://madskjeldgaard.dk/old-blog/supernova-intro/
